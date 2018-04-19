@@ -1,0 +1,41 @@
+<% if flash[:notice] %>
+	<div class="notice"><%= flash[:notice] %> </div>
+<%end %>
+
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<%= @blog_post.title %>
+	</div>
+	<div class="panel-body">
+		<p> <%= @blog_post.author %> </p>
+
+		<p> <i> created <%= time_ago_in_words(@blog_post.created_at)  %> ago </i></p>
+
+
+		<p> <%= @blog_post.blog_entry %> </p>
+	</div>
+
+	<div class = "panel-footer">
+		<%= link_to "Edit", edit_blog_post_path(id: @blog_post.id), class: "btn btn-warning" %>
+		<%= link_to "All Blog Posts", blog_posts_path, class: "btn btn-default" %>
+	</div>
+</div>
+
+<div class="panel panel-success">
+	<div class="panel-heading">
+		Make a comment...
+	</div>
+	<div class = "panel-body">
+		<%= render 'comments/form' %>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		All comments...
+	</div>
+	<div class="panel-body">
+		<%= render 'comments/comment' %>
+	</div>
+</div>

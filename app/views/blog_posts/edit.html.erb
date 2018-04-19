@@ -1,0 +1,7 @@
+<h1>Editing Blog Post</h1>
+
+<%= render 'form' %>
+
+<br>
+<%= link_to "Back", blog_post_path(id: @blog_post.id), class: "btn btn-info" %> | 
+<%= link_to "All Blog Posts", blog_posts_path, class: "btn btn-default" %>
