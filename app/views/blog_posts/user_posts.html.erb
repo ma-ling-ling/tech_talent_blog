@@ -1,0 +1,21 @@
+<h3> All Posts by <b> <%= @user.username %> </b></h3>
+
+<% @user.blog_posts.each do |blog_post| %>
+	<div class = "well">
+			<h4> <%= link_to blog_post.title, blog_post_path(id: blog_post.id) %> </h4>
+			<p> <em> posted on <%= blog_post.created_at.strftime("%m/%d/%Y at %I:%M %P") %></em></p>
+
+			<p>
+				<%= blog_post.blog_entry.html_safe %>
+			</p>
+			<p>
+
+<!-- 				<#% if current_user.id == @user.id %> -->
+				<% if current_user.id == blog_post.user_id %>
+
+					<%= link_to "Edit", edit_blog_post_path(id: blog_post.id), class: "btn btn-warning" %>
+					<%= link_to "Destroy", blog_post_path(id: blog_post.id), method: :destroy,  data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+				<% end %>
+			</p>
+	</div>
+<%end%>

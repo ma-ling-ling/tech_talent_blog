@@ -1,9 +1,12 @@
 class CommentsController < ApplicationController
 
 	before_action :set_comment, only: [:edit, :update, :destroy]
+	include ApplicationHelper
 
   def edit
   	# @comment = Comment.find(params[:id])
+  	@blog_post = BlogPost.find(@comment.blog_post_id)
+  	not_post_owner(current_user, @comment)
   end
 
   def create
@@ -42,7 +45,7 @@ class CommentsController < ApplicationController
 	private
 
 	def comment_params
-		params.require(:comment).permit(:author, :comment_entry, :blog_post_id)
+		params.require(:comment).permit(:user_id, :comment_entry, :blog_post_id)
 	end
 
 	def set_comment

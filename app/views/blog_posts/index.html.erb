@@ -1,4 +1,4 @@
-<h1> Current Blog Posts </h1>
+<h1> Welcome <%= current_user.username %> </h1>
 
 <% if flash[:notice] %>
 	<div class="notice"><%= flash[:notice] %> </div>
@@ -11,21 +11,26 @@
 			<%= link_to blog_post.title, blog_post_path(id: blog_post.id) %>
 		</div>
 		<div class="panel-body">
-			by <%= blog_post.author %> <br>
+	<!-- 		by <%= blog_post.user.username %> <br> -->
+			by <%= link_to blog_post.user.username, user_posts_path(name: blog_post.user.username) %>
 
 			<p><i> <%= blog_post.created_at.strftime('%m/%d/%Y at %I:%M%p') %> </i></p>
 
 <!-- 			<p><%= truncate blog_post.blog_entry, length: 100 %></p>  -->
-  			<p> <%= blog_post.blog_entry[0..100] %> ... </p>  
-			<%= link_to "read more", blog_post %>  
+  			<p> <%= blog_post.blog_entry[0..150].html_safe %> ... </p>  
+			<%= link_to "read more", blog_post_path(id: blog_post.id) %>  
 
 		</div>
 		<div class="panel-footer">
 <!-- 			<%= link_to "Show", blog_post_path(id: blog_post.id), class: "btn btn-info" %> -->
-			<%= link_to "Edit", edit_blog_post_path(id: blog_post.id), class: "btn btn-warning" %>
-			<%= link_to "Destroy", blog_post_path(id: blog_post.id), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+			<% if current_user.id == blog_post.user_id %>
+				<%= link_to "Edit", edit_blog_post_path(id: blog_post.id), class: "btn btn-warning" %>
+				<%= link_to "Destroy", blog_post_path(id: blog_post.id), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger" %>
+			<% end %>
 		</div>
 	</div>
 <%end %>
 
-<%= link_to "New Blog Post",  new_blog_post_path, class: "btn btn-success" %>
+<%= paginate @blog_posts, :theme => 'twitter-bootstrap-3', :pagination_class => "pagination-sm" %>
+
+<!-- <%= link_to "New Blog Post",  new_blog_post_path, class: "btn btn-success" %> -->
